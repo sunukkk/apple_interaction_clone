@@ -76,6 +76,7 @@ p{
   display: flex;
   align-items: center;
   justify-content: center;
+  
 }
 
 #scroll-section-0{
@@ -88,7 +89,7 @@ p{
     height: 3em;
     margin: 5px 0;
     font-size: 2.5rem;
-
+    opacity: 0;
     p{
       font-weight: bold;
       text-align: center;
@@ -100,6 +101,7 @@ p{
 
 #scroll-section-2{
   .main-message{
+    display:block;
     font-size: 3.5rem;
 
     p{
@@ -113,6 +115,16 @@ p{
         font-size: 1.6rem;
       }
     }
+  }
+
+  .msg-b{
+    top:10%;
+    left: 40%;
+  }
+
+  .msg-c{
+    top:15%;
+    left: 45%;
   }
 }
 
@@ -177,8 +189,8 @@ p{
 .sticky-elem{
   display: none;
   position: fixed;
-  top: 0;
   left: 0;
+  top: 35vh;
   width: 100%;
 }
 
@@ -195,7 +207,7 @@ p{
     font-size: 9vw;
   }
 
-  .main-message{
+  #scroll-section-0 .main-message{
     font-size: 4vw;
   }
 
@@ -209,6 +221,15 @@ p{
 
   #scroll-section-2 .main-message{
     font-size: 6vw;
+  }
+
+  #scroll-section-2 .msg-b{
+    top: 20%;
+    left: 53%;
+  }
+
+  #scroll-section-2 .msg-c{
+    left: 55%;
   }
 
   .main-message small{
