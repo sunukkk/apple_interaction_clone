@@ -88,16 +88,17 @@ p {
   line-height: 1.2;
 }
 
-#scroll-section-2 .main-message {
+#scroll-section-2 .msg-a {
   display: block;
   font-size: 3.5rem;
+  opacity: 0;
 }
-#scroll-section-2 .main-message p {
+#scroll-section-2 .msg-a p {
   font-weight: bold;
   text-align: center;
   line-height: 1.2;
 }
-#scroll-section-2 .main-message p small {
+#scroll-section-2 .msg-a p small {
   display: block;
   margin-bottom: 0.5em;
   font-size: 1.6rem;
