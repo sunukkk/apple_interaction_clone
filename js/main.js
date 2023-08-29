@@ -17,7 +17,10 @@
         msgA: document.querySelector('#scroll-section-0 .main-message.msg-a'),
         msgB: document.querySelector('#scroll-section-0 .main-message.msg-b'),
         msgC: document.querySelector('#scroll-section-0 .main-message.msg-c'),
-        msgD: document.querySelector('#scroll-section-0 .main-message.msg-d')
+        msgD: document.querySelector('#scroll-section-0 .main-message.msg-d'),
+        canvas: document.querySelector('#video-canvas-0'),
+        context: document.querySelector('#video-canvas-0').getContext('2d'),
+        videoImages: [],
       },
       values: {
         msgA_Opacity_in: [0, 1, { start : 0.1, end: 0.2 }],
@@ -38,7 +41,11 @@
         msgD_Opacity_in: [0, 1, { start : 0.7, end: 0.8}],
         msgD_TranslateY_in: [20, 0, { start : 0.7, end: 0.8}],
         msgD_Opacity_out: [1, 0, { start : 0.85, end: 0.9}],
-        msgD_TranslateY_out: [0, -20, { start : 0.85, end: 0.9}]
+        msgD_TranslateY_out: [0, -20, { start : 0.85, end: 0.9}],
+
+        videoImageCount: 294,
+        imageSequence: [0, 293],
+        canvas_opacity:[1, 0 , {start: 0.9, end: 1}]
       }
       
     },
@@ -107,6 +114,17 @@
     }
   ];
   
+  function setCanvasImages() {
+    let imgElem;
+    for(let i=0; i<sceneInfo[0].values.videoImageCount; i++){
+      imgElem = new Image();
+      imgElem.src = `../Images/cat/${1+i}.jpg`
+      sceneInfo[0].objs.videoImages.push(imgElem);
+    }
+  }
+  setCanvasImages();
+  console.log(sceneInfo[0].objs.videoImages)
+
   function setLayout() {
     // 스크롤 섹션의높이 지정
     for(let i = 0; i< sceneInfo.length; i++){
@@ -130,6 +148,9 @@
       }
     }
     document.body.setAttribute('id', `show-scene-${currentScene}`)
+
+    const heightRatio = window.innerHeight / 1080;
+    sceneInfo[0].objs.canvas.style.transform = `translate3d(-50%, -50%, 0) scale(${heightRatio})`
   }
   
   
@@ -194,15 +215,20 @@
 
     switch (currentScene) {
       case 0:
-        /* console.log('0 play') */
-        //css 지정
+        // console.log('0 play') 
+        
 
-      /*
-        let msgA_Opacity_in = calcValues(values.msgA_Opacity_in, currentYOffset);
-        let msgA_Opacity_out = calcValues(values.msgA_Opacity_out, currentYOffset);
-        let msgA_TranslateY_in = calcValues(values.msgA_TranslateY_in, currentYOffset);
-        let msgA_TranslateY_out = calcValues(values.msgA_TranslateY_out, currentYOffset);
-      */
+        /*
+          let msgA_Opacity_in = calcValues(values.msgA_Opacity_in, currentYOffset);
+          let msgA_Opacity_out = calcValues(values.msgA_Opacity_out, currentYOffset);
+          let msgA_TranslateY_in = calcValues(values.msgA_TranslateY_in, currentYOffset);
+          let msgA_TranslateY_out = calcValues(values.msgA_TranslateY_out, currentYOffset);
+        */
+        
+        let sequence = Math.round(calcValues(values.imageSequence, currentYOffset));
+        objs.context.drawImage(objs.videoImages[sequence], 0, 0)
+        
+        objs.canvas.style.opacity = calcValues(values.canvas_opacity, currentYOffset);
         
         if(scrollRatio <= 0.22){
           //in
@@ -306,7 +332,10 @@
   })
 
   /* window.addEventListener('DOMContentLoaded', setLayout) */
-  window.addEventListener('load', setLayout)
+  window.addEventListener('load', () => {
+    setLayout()
+    sceneInfo[0].objs.context.drawImage(sceneInfo[0].objs.videoImages[0], 0, 0)
+    })
   window.addEventListener('resize', setLayout);
   
 })();
