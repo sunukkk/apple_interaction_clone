@@ -1,6 +1,6 @@
 (() => {
   
-  let yOffset = 0; // window.pageYOffset 담을 변수
+  let yOffset = 0; // window.scrollY 담을 변수
   let prevScrollHeight = 0; // yoffset보다 이전에 위치한 스크롤 섹션들의 높이값의 합
   let currentScene = 0; // 현재 활성화 된 (보고있는) 장면(scroll-section)
 
@@ -138,7 +138,7 @@
     }
       
 
-    yOffset = window.pageYOffset
+    yOffset = window.scrollY
     let totalScrollHeight = 0;
     for(let i=0; i< sceneInfo.length; i++){
       totalScrollHeight += sceneInfo[i].scrollHeight;
@@ -149,7 +149,12 @@
     }
     document.body.setAttribute('id', `show-scene-${currentScene}`)
 
-    const heightRatio = window.innerHeight / 1080;
+    const heightRatio = window.innerHeight / 1080
+
+    console.log(screen.height)
+    console.log(window.outerHeight)
+    console.log(heightRatio)
+
     sceneInfo[0].objs.canvas.style.transform = `translate3d(-50%, -50%, 0) scale(${heightRatio})`
   }
   
@@ -327,7 +332,7 @@
 
 
   window.addEventListener('scroll', () => {
-    yOffset = window.pageYOffset;
+    yOffset = window.scrollY
     scrollLoop()
   })
 

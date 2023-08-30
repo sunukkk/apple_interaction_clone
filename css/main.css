@@ -5,9 +5,13 @@ html {
 
 body {
   overflow-x: hidden;
-  color: rgb(29, 29, 31);
+  color: #fff;
   letter-spacing: -0.05em;
-  background-color: white;
+  background-color: #000;
+}
+
+a {
+  color: #fff;
 }
 
 p {
@@ -22,6 +26,7 @@ p {
   width: 100%;
   height: 44px;
   padding: 0 1rem;
+  background-color: rgba(255, 255, 255, 0.2);
 }
 
 .local-nav {
@@ -32,7 +37,8 @@ p {
   width: 100%;
   height: 52px;
   padding: 0 1rem;
-  border-bottom: 1px solid #ddd;
+  background-color: rgba(255, 255, 255, 0.2);
+  border-bottom: 2px solid rgba(255, 255, 255, 0.2);
 }
 
 .global-nav-links {
@@ -64,6 +70,7 @@ p {
 }
 
 .scroll-section {
+  position: relative;
   padding-top: 50vh;
 }
 
@@ -71,6 +78,8 @@ p {
   display: flex;
   align-items: center;
   justify-content: center;
+  top: 35vh;
+  opacity: 0;
 }
 
 #scroll-section-0 h1 {
@@ -84,7 +93,6 @@ p {
   height: 3em;
   margin: 5px 0;
   font-size: 2.5rem;
-  opacity: 0;
 }
 #scroll-section-0 .main-message p {
   font-weight: bold;
@@ -127,7 +135,7 @@ p {
   float: left;
   margin-right: 0.2em;
   font-size: 3rem;
-  color: rgb(29, 31, 31);
+  color: #fff;
 }
 
 .desc-message {
@@ -138,7 +146,7 @@ p {
 .pin {
   width: 1px;
   height: 100px;
-  background-color: rgb(29, 29, 31);
+  background-color: #fff;
 }
 
 .mid-message {
@@ -149,7 +157,7 @@ p {
   color: #888;
 }
 .mid-message strong {
-  color: rgb(29, 29, 31);
+  color: #fff;
 }
 
 .canvas-caption {
@@ -174,14 +182,12 @@ p {
   display: none;
   position: fixed;
   left: 0;
-  top: 35vh;
   width: 100%;
 }
 
 .sticky-elem-canvas {
   top: 0;
   height: 100%;
-  background-color: #ccc;
 }
 .sticky-elem-canvas canvas {
   position: absolute;
