@@ -71,16 +71,19 @@
           msgB: document.querySelector('#scroll-section-2 .msg-b'),
           pinB: document.querySelector('#scroll-section-2 .msg-b .pin'),
           msgC: document.querySelector('#scroll-section-2 .msg-c'),
-          pinC: document.querySelector('#scroll-section-2 .msg-c .pin')
+          pinC: document.querySelector('#scroll-section-2 .msg-c .pin'),
+          canvas: document.querySelector('#video-canvas-1'),
+          context: document.querySelector('#video-canvas-1').getContext('2d'),
+          videoImages: [],
         },
         values: {
-          msgA_Opacity_in: [0, 1, { start: 0.15, end: 0.25 }],
-          msgA_TranslateY_in: [20, 0, { start: 0.15, end: 0.25 }],
+          msgA_Opacity_in: [0, 1, { start: 0.15, end: 0.2 }],
+          msgA_TranslateY_in: [20, 0, { start: 0.15, end: 0.2 }],
           msgA_Opacity_out: [1, 0, { start: 0.3, end: 0.35 }],
           msgA_TranslateY_out: [0, -20, { start: 0.3, end: 0.35 }],
       
-          msgB_Opacity_in: [0, 1, { start: 0.5, end: 0.6 }],
-          msgB_TranslateY_in: [20, 0, { start: 0.5, end: 0.6 }],
+          msgB_Opacity_in: [0, 1, { start: 0.5, end: 0.55 }],
+          msgB_TranslateY_in: [20, 0, { start: 0.5, end: 0.55 }],
           msgB_Opacity_out: [1, 0, { start: 0.6, end: 0.65 }],
           msgB_TranslateY_out: [0, -20, { start: 0.7, end: 0.75 }],
       
@@ -89,13 +92,18 @@
           msgC_Opacity_out: [1, 0, { start: 0.8, end: 0.85 }],
           msgC_TranslateY_out: [0, -20, { start: 0.8, end: 0.85 }],
       
-          pinB_scaleY: [0.5, 1, { start: 0.5, end: 0.6 }],
-          pinB_opacity_in: [0, 1, { start: 0.5, end: 0.6 }],
+          pinB_scaleY: [0.5, 1, { start: 0.5, end: 0.55 }],
+          pinB_opacity_in: [0, 1, { start: 0.5, end: 0.55 }],
           pinB_opacity_out: [1, 0, { start: 0.7, end: 0.75 }],
       
-          pinC_scaleY: [0.5, 1, { start: 0.7, end: 0.8 }],
-          pinC_opacity_in: [0, 1, { start: 0.7, end: 0.85 }],
-          pinC_opacity_out: [1, 0, { start: 0.8, end: 0.85 }]
+          pinC_scaleY: [0.5, 1, { start: 0.7, end: 0.75 }],
+          pinC_opacity_in: [0, 1, { start: 0.7, end: 0.75 }],
+          pinC_opacity_out: [1, 0, { start: 0.85, end: 0.9 }],
+
+          videoImageCount: 611,
+          imageSequence: [0, 610],
+          canvas_opacity_in:[0, 1 , {start: 0, end: 0.1}],
+          canvas_opacity_out:[1, 0 , {start: 0.9, end: 1}]
         }
       },
 
@@ -106,10 +114,18 @@
       scrollHeight: 0,
       objs: {
         container: document.querySelector('#scroll-section-3'),
-        canvasCaption: document.querySelector('.canvas-caption')
+        canvasCaption: document.querySelector('.canvas-caption'),
+        canvas: document.querySelector('.image-blend-canvas'),
+        context: document.querySelector('.image-blend-canvas').getContext('2d'),
+        imagesPath: [
+          './images/cat3/cat3-1.jpg',
+          './images/cat3/cat3-2.jpg'
+        ],
+        images: []
       },
       values: {
-
+        rect1X: [0,0, { start : 0, end: 0}],
+        rect2X: [0,0, { start : 0, end: 0}],
       }
     }
   ];
@@ -121,9 +137,21 @@
       imgElem.src = `../Images/cat/${1+i}.jpg`
       sceneInfo[0].objs.videoImages.push(imgElem);
     }
+    let imgElem2;
+    for(let i=0; i<sceneInfo[2].values.videoImageCount; i++){
+      imgElem2 = new Image();
+      imgElem2.src = `../Images/cat2/${1+i}.jpg`
+      sceneInfo[2].objs.videoImages.push(imgElem2);
+    }
+    let imgElem3;
+    for(let i = 0; i< sceneInfo[3].objs.imagesPath.length; i++) {
+      imgElem3 = new Image();
+      imgElem3.src = sceneInfo[3].objs.imagesPath[i];
+      sceneInfo[3].objs.images.push(imgElem3)
+    }
+    console.log(sceneInfo[3].objs.images)
   }
   setCanvasImages();
-  console.log(sceneInfo[0].objs.videoImages)
 
   function setLayout() {
     // 스크롤 섹션의높이 지정
@@ -151,11 +179,8 @@
 
     const heightRatio = window.innerHeight / 1080
 
-    console.log(screen.height)
-    console.log(window.outerHeight)
-    console.log(heightRatio)
-
     sceneInfo[0].objs.canvas.style.transform = `translate3d(-50%, -50%, 0) scale(${heightRatio})`
+    sceneInfo[2].objs.canvas.style.transform = `translate3d(-50%, -50%, 0) scale(${heightRatio})`
   }
   
   
@@ -231,7 +256,7 @@
         */
         
         let sequence = Math.round(calcValues(values.imageSequence, currentYOffset));
-        objs.context.drawImage(objs.videoImages[sequence], 0, 0)
+        objs.context.drawImage(objs.videoImages[sequence], 0, 0);
         
         objs.canvas.style.opacity = calcValues(values.canvas_opacity, currentYOffset);
         
@@ -284,8 +309,19 @@
 
       case 2:
         /* console.log('2 play') */
-        console.log(objs.msgA)
+        let sequence2 = Math.round(calcValues(values.imageSequence, currentYOffset));
+        objs.context.drawImage(objs.videoImages[sequence2], 0, 0);
         
+        if(scrollRatio <= 0.5) {
+          //in
+          objs.canvas.style.opacity = calcValues(values.canvas_opacity_in, currentYOffset);}
+
+          //out
+          else{
+            objs.canvas.style.opacity = calcValues(values.canvas_opacity_out, currentYOffset);}
+          
+
+
         if(scrollRatio <= 0.3){
           //in
           objs.msgA.style.opacity = calcValues(values.msgA_Opacity_in, currentYOffset);
@@ -324,6 +360,25 @@
       
       case 3:
         /* console.log('3 play') */
+        // 가로 세로 모두 꽉 차게 하기위한 계산
+        const widthRatio = window.innerWidth / objs.canvas.width;
+        const heightRatio = window.innerHeight / objs.canvas.height;
+        let canvasScaleRatio;
+
+        if(widthRatio <= heightRatio){
+          canvasScaleRatio = heightRatio;
+        } else {
+          canvasScaleRatio = widthRatio;
+        }
+
+        objs.canvas.style.transform = `scale(${canvasScaleRatio})`
+        objs.context.drawImage(objs.images[0], 0, 0)
+
+        // 캔버스 사이즈에 맞춰 재설정한 innerWidth, innerHeight
+        const settedInnerWidth = window.innerWidth / canvasScaleRatio;
+        const settedInnerHeight = window.innerHeight / canvasScaleRatio;
+
+        const settedRectWidth = settedInnerWidth * 0.2
 
         break;
     }

@@ -156,16 +156,18 @@ p{
   }
 
 }
-
-.desc-message {
-  width: 50%;
+.sticky-elem.desc-message {
+  width: 40% ;
   font-weight: bold;
-}
+  opacity: 0;
+  }
+
 
 .pin{
   width: 1px;
   height: 100px;
-  background-color: #fff
+  background-color: #fff;
+
 }
 
 .mid-message{
@@ -204,6 +206,7 @@ p{
   position: fixed;
   left: 0;
   width: 100%;
+  
 }
 
 .sticky-elem-canvas{
@@ -224,7 +227,15 @@ p{
 	display: block;
 }
 
+.image-blend-canvas{
+  
+}
 
+#scroll-section-3{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 @media (min-width: 1024px){
   #scroll-section-0 h1{
     font-size: 9vw;
@@ -242,16 +253,22 @@ p{
     font-size: 6rem;
   }
 
+  .sticky-elem.desc-message{
+    width: 20%;
+  }
+
   #scroll-section-2 .main-message{
     font-size: 6vw;
   }
 
   #scroll-section-2 .msg-b{
-    top: 20%;
-    left: 53%;
+    width: 20%;
+    top: 12%;
+    left: 46%;
   }
 
   #scroll-section-2 .msg-c{
+    top: 20%;
     left: 55%;
   }
 
